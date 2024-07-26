@@ -5,16 +5,20 @@ canvas.height = 600;
 
 let car = {
     x: 375,
-    y: 500,
-    width: 50,
-    height: 100,
-    speed: 5
+    y: 450,
+    width: 100,
+    height: 150,
+    speed: 15
 };
 
 let keys = {};
 let obstacles = [];
 let score = 0;
 let gameOver = false;
+
+// Charger l'image de la voiture
+const carImage = new Image();
+carImage.src = 'car.png';
 
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
@@ -25,8 +29,7 @@ document.addEventListener('keyup', (e) => {
 });
 
 function drawCar() {
-    ctx.fillStyle = 'red';
-    ctx.fillRect(car.x, car.y, car.width, car.height);
+    ctx.drawImage(carImage, car.x, car.y, car.width, car.height);
 }
 
 function drawObstacles() {
@@ -88,6 +91,9 @@ function update() {
     }
 }
 
-createObstacle();
-setInterval(createObstacle, 2000);
-update();
+// Attendre que l'image soit chargée avant de démarrer le jeu
+carImage.onload = () => {
+    createObstacle();
+    setInterval(createObstacle, 2000);
+    update();
+};
